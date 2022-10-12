@@ -113,7 +113,9 @@ public class MecanumDrive extends OpMode {
 
         grabber.setPosition(0);
         if(gamepad1.x){
-            grabber.setPosition(1);
+            for(int i = 0; i<5; i++){
+                grabber.setPosition(1);
+            }
         }
 
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
