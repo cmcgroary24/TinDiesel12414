@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
-//yo this works
-//test
-//i can push
+
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -27,7 +26,13 @@ public class MecanumDrive extends OpMode {
     private DcMotor front_right = null;
     private DcMotor back_left   = null;
     private DcMotor back_right  = null;
-    private Servo gabe_servo_test = null;
+    private Servo gabe_servo_test;
+    private Servo grabber;
+
+    public final static double SERVO_HOME = 0.0;
+    public final static double SERVO_MIN_RANGE = 0.0;
+    public final static double SERVO_MAX_RANGE = 1.0;
+    final double SERVO_SPEED = 0.01;
 
     @Override
     public void init() {
@@ -39,15 +44,17 @@ public class MecanumDrive extends OpMode {
         back_left    = hardwareMap.get(DcMotor.class, "back_left");
         back_right   = hardwareMap.get(DcMotor.class, "back_right");
         gabe_servo_test = hardwareMap.get(Servo.class, "gabe_servo_test");
+        grabber = hardwareMap.get(Servo.class, "grabber");
     }
 
     @Override
     public void loop() {
 
+        /*
         // Mecanum drive is controlled with three axes: drive (front-and-back),
         // strafe (left-and-right), and twist (rotating the whole chassis).
-        double drive  = gamepad1.left_stick_y;
-        double strafe = gamepad1.left_stick_x;
+        double drive  = gamepad1.right_stick_x;
+        double strafe = gamepad1.left_stick_y;
         double twist  = gamepad1.right_stick_y;
 
         /*
@@ -65,15 +72,15 @@ public class MecanumDrive extends OpMode {
          *     convert heading to radians (if necessary)
          *     new strafe = strafe * cos(heading) - drive * sin(heading)
          *     new drive  = strafe * sin(heading) + drive * cos(heading)
-         */
+
 
         // You may need to multiply some of these by -1 to invert direction of
         // the motor.  This is not an issue with the calculations themselves.
         double[] speeds = {
                 (drive + strafe + twist),
-                (drive - strafe - twist),
-                (drive - strafe + twist),
-                (drive + strafe - twist)
+                (-1)*(drive - strafe - twist),
+                (-1)*(drive - strafe + twist),
+                (-1)*(drive + strafe - twist)
         };
 
         // Because we are adding vectors and motors only take values between
@@ -97,15 +104,25 @@ public class MecanumDrive extends OpMode {
         front_right.setPower(speeds[1]);
         back_left.setPower(speeds[2]);
         back_right.setPower(speeds[3]);
+        */
 
+        gabe_servo_test.setPosition(Servo.MIN_POSITION);
 
-        double position1 = 0;
-
-        if(gamepad1.a == true){
-            gabe_servo_test.setPosition(position1+90);
+        if(gamepad1.a){
+            gabe_servo_test.setPosition(Servo.MAX_POSITION);
         }
-        else{
-            gabe_servo_test.setPosition(0);
-        }
+
+        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+        double rightX = gamepad1.right_stick_x;
+        final double v1 = r * Math.cos(robotAngle) + rightX;
+        final double v2 = r * Math.sin(robotAngle) - rightX;
+        final double v3 = r * Math.sin(robotAngle) + rightX;
+        final double v4 = r * Math.cos(robotAngle) - rightX;
+
+        front_left.setPower(-v1);
+        front_right.setPower(v2);
+        back_left.setPower(-v3);
+        back_right.setPower(v4);
     }
 }
