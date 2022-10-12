@@ -107,9 +107,13 @@ public class MecanumDrive extends OpMode {
         */
 
         gabe_servo_test.setPosition(Servo.MIN_POSITION);
-
-        if(gamepad1.a){
+        if(gamepad1.a) {
             gabe_servo_test.setPosition(Servo.MAX_POSITION);
+        }
+
+        grabber.setPosition(0);
+        if(gamepad1.x){
+            grabber.setPosition(1);
         }
 
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
