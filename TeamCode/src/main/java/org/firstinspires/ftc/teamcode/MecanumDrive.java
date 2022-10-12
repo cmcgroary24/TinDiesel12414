@@ -26,7 +26,7 @@ public class MecanumDrive extends OpMode {
     private DcMotor front_right = null;
     private DcMotor back_left   = null;
     private DcMotor back_right  = null;
-    private Servo gabe_servo_test;
+    //private Servo gabe_servo_test;
     private Servo grabber;
 
     public final static double SERVO_HOME = 0.0;
@@ -43,7 +43,7 @@ public class MecanumDrive extends OpMode {
         front_right  = hardwareMap.get(DcMotor.class, "front_right");
         back_left    = hardwareMap.get(DcMotor.class, "back_left");
         back_right   = hardwareMap.get(DcMotor.class, "back_right");
-        gabe_servo_test = hardwareMap.get(Servo.class, "gabe_servo_test");
+        //gabe_servo_test = hardwareMap.get(Servo.class, "gabe_servo_test");
         grabber = hardwareMap.get(Servo.class, "grabber");
     }
 
@@ -106,15 +106,22 @@ public class MecanumDrive extends OpMode {
         back_right.setPower(speeds[3]);
         */
 
+        /*
         gabe_servo_test.setPosition(Servo.MIN_POSITION);
         if(gamepad1.a) {
             gabe_servo_test.setPosition(Servo.MAX_POSITION);
         }
+        */
 
         grabber.setPosition(0);
-        if(gamepad1.x){
+        if(gamepad1.b){
             for(int i = 0; i<5; i++){
-                grabber.setPosition(1);
+                grabber.setPosition(-270);
+                try {
+                    wait(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
