@@ -125,6 +125,32 @@ public class MecanumDrive extends OpMode {
             }
         }
 
+        float trigger = gamepad1.left_trigger;
+
+
+        if(trigger == 1){
+            front_left.setPower(300);
+            front_right.setPower(300);
+            back_left.setPower(300);
+            back_right.setPower(300);
+            try {
+                wait(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            front_left.setPower(-300);
+            front_right.setPower(-300);
+            back_left.setPower(300);
+            back_right.setPower(300);
+            try {
+                    wait(1000);
+                } catch(InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
