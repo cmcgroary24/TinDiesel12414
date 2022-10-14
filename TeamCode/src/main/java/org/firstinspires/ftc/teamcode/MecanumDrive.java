@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+
 /**
  * This is an example minimal implementation of the mecanum drivetrain
  * for demonstration purposes.  Not tested and not guaranteed to be bug free.
@@ -116,13 +117,16 @@ public class MecanumDrive extends OpMode {
         grabber.setPosition(0);
         if(gamepad1.b){
             for(int i = 0; i<5; i++){
-                grabber.setPosition(-270);
+                grabber.setPosition(grabber.getPosition()+180);
                 try {
-                    wait(1000);
-                } catch (InterruptedException e) {
+                    Thread.sleep(500);
+                }
+                catch(InterruptedException e)
+                {
                     e.printStackTrace();
                 }
             }
+            grabber.setPosition(0);
         }
 
         float trigger = gamepad1.left_trigger;
