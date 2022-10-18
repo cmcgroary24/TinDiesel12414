@@ -114,18 +114,24 @@ public class MecanumDrive extends OpMode {
         }
         */
 
-        grabber.setPosition(0);
-        if(gamepad1.b){
+        double position= grabber.getPosition();
 
-            grabber.setPosition(grabber.getPosition()+180);
-            try {
+
+        if(gamepad1.a){
+
+            grabber.setPosition(position+360);
+            /*try {
                 Thread.sleep(5000);
             }
             catch(InterruptedException e) {
-                grabber.setPosition(0);
-            }
+                grabber.setPosition(Servo.MIN_POSITION);
+            }*/
 
 
+
+        }
+        else {
+            grabber.setPosition(position);
         }
 
         float trigger = gamepad1.left_trigger;
