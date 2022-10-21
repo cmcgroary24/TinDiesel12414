@@ -33,7 +33,7 @@ public class MecanumDrive extends OpMode {
     public final static double SERVO_HOME = 0.0;
     public final static double SERVO_MIN_RANGE = 0.0;
     public final static double SERVO_MAX_RANGE = 1.0;
-    final double SERVO_SPEED = 0.01;
+    final double SERVO_SPEED = 0.0;
 
     @Override
     public void init() {
@@ -114,24 +114,18 @@ public class MecanumDrive extends OpMode {
         }
         */
 
-        double position= grabber.getPosition();
-
-
+        int a = 0;
         if(gamepad1.a){
+            a=1;
+        }
 
-            grabber.setPosition(position+360);
-            /*try {
-                Thread.sleep(5000);
-            }
-            catch(InterruptedException e) {
-                grabber.setPosition(Servo.MIN_POSITION);
-            }*/
-
-
+        if(a==1){
+            grabber.setPosition(1.0);
+            a=0;
 
         }
         else {
-            grabber.setPosition(position);
+           grabber.setPosition(0);
         }
 
         float trigger = gamepad1.left_trigger;
