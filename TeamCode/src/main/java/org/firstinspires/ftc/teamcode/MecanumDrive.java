@@ -114,14 +114,22 @@ public class MecanumDrive extends OpMode {
         }
         */
 
-        int a = 0;
+
+
+        /*int a =0;
         if(gamepad1.a){
             a=1;
-        }
 
+        }
         if(a==1){
             grabber.setPosition(1.0);
             a=0;
+        }
+        else{
+            grabber.setPosition(0);
+        }*/
+        if(gamepad1.a){
+            grabber.setPosition(1.0);
 
         }
         else {
