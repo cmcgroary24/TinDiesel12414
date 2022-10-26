@@ -136,10 +136,9 @@ public class MecanumDrive extends OpMode {
            grabber.setPosition(0);
         }
 
-        float trigger = gamepad1.left_trigger;
 
-/*
-        if(trigger == 1){
+
+        if(gamepad1.left_trigger == 1){
             front_left.setPower(300);
             front_right.setPower(300);
             back_left.setPower(300);
@@ -160,7 +159,6 @@ public class MecanumDrive extends OpMode {
                 }
             }
         }
-        */
 
 
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
