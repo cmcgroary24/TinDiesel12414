@@ -139,19 +139,19 @@ public class MecanumDrive extends OpMode {
 
 
         if(gamepad1.left_trigger == 1){
-            front_left.setPower(300);
-            front_right.setPower(300);
-            back_left.setPower(300);
-            back_right.setPower(300);
+            front_left.setPower(1);
+            front_right.setPower(1);
+            back_left.setPower(1);
+            back_right.setPower(1);
             try {
                 wait(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            front_left.setPower(-300);
-            front_right.setPower(-300);
-            back_left.setPower(300);
-            back_right.setPower(300);
+            front_left.setPower(-1);
+            front_right.setPower(-1);
+            back_left.setPower(1);
+            back_right.setPower(1);
             try {
                     wait(1000);
                 } catch(InterruptedException e) {
