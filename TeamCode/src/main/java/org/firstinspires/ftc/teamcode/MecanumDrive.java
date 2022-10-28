@@ -128,39 +128,89 @@ public class MecanumDrive extends OpMode {
         else{
             grabber.setPosition(0);
         }*/
-        if(gamepad1.a){
+        if (gamepad1.a) {
             grabber.setPosition(1.0);
 
+        } else {
+            grabber.setPosition(0);
         }
-        else {
-           grabber.setPosition(0);
+
+
+        if (gamepad1.left_trigger == 1) {
+            front_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            front_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            back_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            back_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            front_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            front_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            back_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            back_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            front_right.setTargetPosition(1800);
+            front_left.setTargetPosition(1800);
+            back_right.setTargetPosition(1800);
+            back_left.setTargetPosition(1800);
+
+            front_right.setTargetPosition(1800);
+            front_left.setTargetPosition(-1800);
+            back_right.setTargetPosition(1800);
+            back_left.setTargetPosition(-1800);
+
+            front_right.setTargetPosition(1800);
+            front_left.setTargetPosition(1800);
+            back_right.setTargetPosition(1800);
+            back_left.setTargetPosition(1800);
+        }
+
+        if (gamepad1.right_trigger == 1) {
+            front_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            front_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            back_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            back_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            front_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            front_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            back_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            back_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            front_right.setTargetPosition(1800);
+            front_left.setTargetPosition(1800);
+            back_right.setTargetPosition(1800);
+            back_left.setTargetPosition(1800);
+
+            front_right.setTargetPosition(1800);
+            front_left.setTargetPosition(1800);
+            back_right.setTargetPosition(1800);
+            back_left.setTargetPosition(1800);
+
+            front_right.setTargetPosition(1800);
+            front_left.setTargetPosition(1800);
+            back_right.setTargetPosition(1800);
+            back_left.setTargetPosition(1800);
         }
 
 
-
-        if(gamepad1.left_trigger == 1){
-            front_left.setPower(1);
-            front_right.setPower(1);
-            back_left.setPower(1);
-            back_right.setPower(1);
-            try {
-                wait(1000);
+            /*try {
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                front_left.setPower(1);
+                front_right.setPower(1);
+                back_left.setPower(1);
+                back_right.setPower(1);
             }
-            front_left.setPower(-1);
-            front_right.setPower(-1);
-            back_left.setPower(1);
-            back_right.setPower(1);
             try {
-                    wait(1000);
-                } catch(InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                front_left.setPower(-1);
+                front_right.setPower(-1);
+                back_left.setPower(1);
+                back_right.setPower(1);
+            }*/
         }
 
 
+/*
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
@@ -172,6 +222,9 @@ public class MecanumDrive extends OpMode {
         front_left.setPower(-v1);
         front_right.setPower(v2);
         back_left.setPower(-v3);
-        back_right.setPower(v4);
+        back_right.setPower(v4);*/
+
     }
-}
+
+
+
