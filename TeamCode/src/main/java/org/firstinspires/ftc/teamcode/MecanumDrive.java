@@ -23,10 +23,10 @@ public class MecanumDrive extends OpMode {
      */
 
     // declare and initialize four DcMotors.
-    private DcMotor front_left  = null;
+    private DcMotor front_left = null;
     private DcMotor front_right = null;
-    private DcMotor back_left   = null;
-    private DcMotor back_right  = null;
+    private DcMotor back_left = null;
+    private DcMotor back_right = null;
     //private Servo gabe_servo_test;
     private Servo grabber;
 
@@ -40,10 +40,10 @@ public class MecanumDrive extends OpMode {
 
         // Name strings must match up with the config on the Robot Controller
         // app.
-        front_left   = hardwareMap.get(DcMotor.class, "front_left");
-        front_right  = hardwareMap.get(DcMotor.class, "front_right");
-        back_left    = hardwareMap.get(DcMotor.class, "back_left");
-        back_right   = hardwareMap.get(DcMotor.class, "back_right");
+        front_left = hardwareMap.get(DcMotor.class, "front_left");
+        front_right = hardwareMap.get(DcMotor.class, "front_right");
+        back_left = hardwareMap.get(DcMotor.class, "back_left");
+        back_right = hardwareMap.get(DcMotor.class, "back_right");
         //gabe_servo_test = hardwareMap.get(Servo.class, "gabe_servo_test");
         grabber = hardwareMap.get(Servo.class, "grabber");
     }
@@ -137,6 +137,29 @@ public class MecanumDrive extends OpMode {
 
 
         if (gamepad1.left_trigger == 1) {
+            for (int i = 0; i < 100; i++) {
+                front_right.setPower(1);
+                front_left.setPower(1);
+                back_right.setPower(1);
+                back_left.setPower(1);
+
+            }
+            for (int i = 0; i >= 100 && i < 200; i++) {
+                front_right.setPower(1);
+                front_left.setPower(-1);
+                back_right.setPower(1);
+                back_left.setPower(-1);
+            }
+            for (int i = 0; i >= 100 && i < 200; i++) {
+                front_right.setPower(1);
+                front_left.setPower(1);
+                back_right.setPower(1);
+                back_left.setPower(1);
+            }
+        } else {
+        }
+
+            /*
             front_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             front_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             back_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -160,11 +183,37 @@ public class MecanumDrive extends OpMode {
             front_right.setTargetPosition(1800);
             front_left.setTargetPosition(1800);
             back_right.setTargetPosition(1800);
-            back_left.setTargetPosition(1800);
-        }
+            back_left.setTargetPosition(1800);*/
+
 
         if (gamepad1.right_trigger == 1) {
-            front_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            for (int i = 0; i < 100; i++) {
+                front_right.setPower(-1);
+                front_left.setPower(1);
+                back_right.setPower(-1);
+                back_left.setPower(1);
+
+            }
+            for (int i = 0; i >= 100 && i < 200; i++) {
+                front_right.setPower(1);
+                front_left.setPower(1);
+                back_right.setPower(1);
+                back_left.setPower(1);
+            }
+            for (int i = 0; i >= 100 && i < 200; i++) {
+                front_right.setPower(-1);
+                front_left.setPower(1);
+                back_right.setPower(-1);
+                back_left.setPower(1);
+            }
+            for (int i = 0; i>=200; i++){
+            }
+        } else {
+
+        }
+    }
+}
+           /* front_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             front_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             back_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             back_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -188,7 +237,7 @@ public class MecanumDrive extends OpMode {
             front_left.setTargetPosition(1800);
             back_right.setTargetPosition(1800);
             back_left.setTargetPosition(1800);
-        }
+        }*/
 
 
             /*try {
@@ -207,7 +256,7 @@ public class MecanumDrive extends OpMode {
                 back_left.setPower(1);
                 back_right.setPower(1);
             }*/
-        }
+
 
 
 /*
@@ -224,7 +273,7 @@ public class MecanumDrive extends OpMode {
         back_left.setPower(-v3);
         back_right.setPower(v4);*/
 
-    }
+
 
 
 
