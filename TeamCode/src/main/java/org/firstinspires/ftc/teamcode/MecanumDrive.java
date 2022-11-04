@@ -1,15 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import java.lang.*;
-
-import java.nio.channels.InterruptedByTimeoutException;
-//import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 /**
@@ -32,17 +27,13 @@ public class MecanumDrive extends OpMode {
     private DcMotor front_right = null;
     private DcMotor back_left = null;
     private DcMotor back_right = null;
-    //private Servo gabe_servo_test;
+    private DcMotor arm_slider = null;
     private Servo grabber;
 
     public final static double SERVO_HOME = 0.0;
     public final static double SERVO_MIN_RANGE = 0.0;
     public final static double SERVO_MAX_RANGE = 1.0;
     final double SERVO_SPEED = 0.0;
-
-    double g1lt = gamepad1.left_trigger;
-    double g1rt = gamepad1.right_trigger;
-    boolean g1a = gamepad1.a;
 
     @Override
     public void init() {
@@ -53,77 +44,16 @@ public class MecanumDrive extends OpMode {
         front_right = hardwareMap.get(DcMotor.class, "front_right");
         back_left = hardwareMap.get(DcMotor.class, "back_left");
         back_right = hardwareMap.get(DcMotor.class, "back_right");
-        //gabe_servo_test = hardwareMap.get(Servo.class, "gabe_servo_test");
+        arm_slider = hardwareMap.get(DcMotor.class, "arm_slider");
         grabber = hardwareMap.get(Servo.class, "grabber");
     }
 
     @Override
     public void loop() {
 
-        /*
-        // Mecanum drive is controlled with three axes: drive (front-and-back),
-        // strafe (left-and-right), and twist (rotating the whole chassis).
-        double drive  = gamepad1.right_stick_x;
-        double strafe = gamepad1.left_stick_y;
-        double twist  = gamepad1.right_stick_y;
+        double y2 = gamepad2.right_stick_y;
 
-        /*
-         * If we had a gyro and wanted to do field-oriented control, here
-         * is where we would implement it.
-         *
-         * The idea is fairly simple; we have a robot-oriented Cartesian (x,y)
-         * coordinate (strafe, drive), and we just rotate it by the gyro
-         * reading minus the offset that we read in the init() method.
-         * Some rough pseudocode demonstrating:
-         *
-         * if Field Oriented Control:
-         *     get gyro heading
-         *     subtract initial offset from heading
-         *     convert heading to radians (if necessary)
-         *     new strafe = strafe * cos(heading) - drive * sin(heading)
-         *     new drive  = strafe * sin(heading) + drive * cos(heading)
-
-
-        // You may need to multiply some of these by -1 to invert direction of
-        // the motor.  This is not an issue with the calculations themselves.
-        double[] speeds = {
-                (drive + strafe + twist),
-                (-1)*(drive - strafe - twist),
-                (-1)*(drive - strafe + twist),
-                (-1)*(drive + strafe - twist)
-        };
-
-        // Because we are adding vectors and motors only take values between
-        // [-1,1] we may need to normalize them.
-
-        // Loop through all values in the speeds[] array and find the greatest
-        // *magnitude*.  Not the greatest velocity.
-        double max = Math.abs(speeds[0]);
-        for (double speed : speeds) {
-            if (max < Math.abs(speed)) max = Math.abs(speed);
-        }
-
-        // If and only if the maximum is outside of the range we want it to be,
-        // normalize all the other speeds based on the given speed value.
-        if (max > 1) {
-            for (int i = 0; i < speeds.length; i++) speeds[i] /= max;
-        }
-
-        // apply the calculated values to the motors.
-        front_left.setPower(speeds[0]);
-        front_right.setPower(speeds[1]);
-        back_left.setPower(speeds[2]);
-        back_right.setPower(speeds[3]);
-        */
-
-        /*
-        gabe_servo_test.setPosition(Servo.MIN_POSITION);
-        if(gamepad1.a) {
-            gabe_servo_test.setPosition(Servo.MAX_POSITION);
-        }
-        */
-
-
+        arm_slider.setPower(y2);
 
         /*int a =0;
         if(gamepad1.a){
@@ -137,103 +67,36 @@ public class MecanumDrive extends OpMode {
         else{
             grabber.setPosition(0);
         }*/
-        if (g1a) {
+        if (gamepad1.a) {
             grabber.setPosition(1.0);
 
         } else {
             grabber.setPosition(0);
         }
 
-        if (g1lt == 1) {
-            front_right.setPower(-1);
-            front_left.setPower(1);
-            back_right.setPower(-1);
-            back_left.setPower(1);
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if (gamepad1.left_trigger == 1) {
+            for (int i = 0; i < 100; i++) {
+                front_right.setPower(1);
+                front_left.setPower(1);
+                back_right.setPower(1);
+                back_left.setPower(1);
+
             }
-
-            front_right.setPower(-1);
-            front_left.setPower(-1);
-            back_right.setPower(-1);
-            back_left.setPower(-1);
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            for (int i = 0; i >= 100 && i < 200; i++) {
+                front_right.setPower(1);
+                front_left.setPower(-1);
+                back_right.setPower(1);
+                back_left.setPower(-1);
             }
-            front_right.setPower(0);
-            front_left.setPower(0);
-            back_right.setPower(0);
-            back_left.setPower(0);
-
-        }
-        if (g1rt == 1) {
-            front_right.setPower(-1);
-            front_left.setPower(1);
-            back_right.setPower(-1);
-            back_left.setPower(1);
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            front_right.setPower(1);
-            front_left.setPower(1);
-            back_right.setPower(1);
-            back_left.setPower(1);
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            front_right.setPower(0);
-            front_left.setPower(0);
-            back_right.setPower(0);
-            back_left.setPower(0);
-
-        }
-
-        /*if (gamepad1.left_trigger == 1) {
-            for (int i = 0; i < 20; i++) {
-                if (i <= 10) {
-                    front_right.setPower(-1);
-                    front_left.setPower(1);
-                    back_right.setPower(-1);
-                    back_left.setPower(1);
-                    if (i > 10) {
-                        front_right.setPower(1);
-                        front_left.setPower(1);
-                        back_right.setPower(1);
-                        back_left.setPower(1);
-                    }
-                }
-            for (int i = 0; i >= 10 && i < 20; i++) {
+            for (int i = 0; i >= 100 && i < 200; i++) {
                 front_right.setPower(1);
                 front_left.setPower(1);
                 back_right.setPower(1);
                 back_left.setPower(1);
             }
-            for (int i = 0; i >= 20; i++) {
-                front_right.setPower(0);
-                front_left.setPower(0);
-                back_right.setPower(0);
-                back_left.setPower(0);
-            }
         } else {
-            front_right.setPower(0);
-            front_left.setPower(0);
-            back_right.setPower(0);
-            back_left.setPower(0);
-        */
-
+        }
 
             /*
             front_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -259,7 +122,7 @@ public class MecanumDrive extends OpMode {
             front_right.setTargetPosition(1800);
             front_left.setTargetPosition(1800);
             back_right.setTargetPosition(1800);
-            back_left.setTargetPosition(1800);
+            back_left.setTargetPosition(1800);*/
 
 
         if (gamepad1.right_trigger == 1) {
@@ -289,52 +152,6 @@ public class MecanumDrive extends OpMode {
         }
     }
 }
-           /* front_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            front_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            back_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            back_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            front_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            front_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            back_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            back_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            front_right.setTargetPosition(1800);
-            front_left.setTargetPosition(1800);
-            back_right.setTargetPosition(1800);
-            back_left.setTargetPosition(1800);
-
-            front_right.setTargetPosition(1800);
-            front_left.setTargetPosition(1800);
-            back_right.setTargetPosition(1800);
-            back_left.setTargetPosition(1800);
-
-            front_right.setTargetPosition(1800);
-            front_left.setTargetPosition(1800);
-            back_right.setTargetPosition(1800);
-            back_left.setTargetPosition(1800);
-        }*/
-
-
-            /*try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                front_left.setPower(1);
-                front_right.setPower(1);
-                back_left.setPower(1);
-                back_right.setPower(1);
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                front_left.setPower(-1);
-                front_right.setPower(-1);
-                back_left.setPower(1);
-                back_right.setPower(1);
-            }*/
-
-
-
 /*
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
@@ -347,7 +164,11 @@ public class MecanumDrive extends OpMode {
         front_left.setPower(-v1);
         front_right.setPower(v2);
         back_left.setPower(-v3);
-        back_right.setPower(v4);*/
+        back_right.setPower(v4);*
+
+ */
 
 
-        }}
+
+
+
