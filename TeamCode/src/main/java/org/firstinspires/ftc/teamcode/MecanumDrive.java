@@ -145,14 +145,13 @@ public class MecanumDrive extends OpMode {
                 back_right.setPower(-1);
                 back_left.setPower(1);
             }
-            for (int i = 0; i>=200; i++){
+            for (int i = 0; i >= 200; i++) {
             }
         } else {
 
         }
-    }
-}
-/*
+
+
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
@@ -164,11 +163,9 @@ public class MecanumDrive extends OpMode {
         front_left.setPower(-v1);
         front_right.setPower(v2);
         back_left.setPower(-v3);
-        back_right.setPower(v4);*
+        back_right.setPower(v4);
 
- */
-
-
-
+    }
+}
 
 
