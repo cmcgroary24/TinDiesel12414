@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -51,13 +52,13 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Tin Diesel Auto Code", group = "Concept")
+@TeleOp(name = "Tin Diesel Auto Code Red", group = "Auto")
 public class TinDieselAutoCode extends LinearOpMode {
 
     /*
      * Specify the source for the Tensor Flow Model.
      * If the TensorFlowLite object model is included in the Robot Controller App as an "asset",
-     * the OpMode must to load it using loadModelFromAsset().  However, if a team generated model
+     * the OpMode must to load it using loadModelFromAsset().  However, if a team generated mode'l
      * has been downloaded to the Robot Controller's SD FLASH memory, it must to be loaded using loadModelFromFile()
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
@@ -66,6 +67,8 @@ public class TinDieselAutoCode extends LinearOpMode {
     private DcMotor rFD = null;
     private DcMotor lBD = null;
     private DcMotor rBD = null;
+
+    private Recognition recog;
 
 
     private static final String TFOD_MODEL_ASSET = "dieselVision.tflite";
@@ -114,15 +117,12 @@ public class TinDieselAutoCode extends LinearOpMode {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
 
-        lFD.setDirection(DcMotor.Direction.REVERSE);
-        lBD.setDirection(DcMotor.Direction.REVERSE);
-        rFD.setDirection(DcMotor.Direction.FORWARD);
-        rBD.setDirection(DcMotor.Direction.FORWARD);
-
+        /*
         lFD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lBD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rFD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rBD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         */
 
         lFD  = hardwareMap.get(DcMotor.class, "front_left");
         lBD  = hardwareMap.get(DcMotor.class, "front_right");
@@ -146,7 +146,7 @@ public class TinDieselAutoCode extends LinearOpMode {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(2.0, 16.0/9.0);
+            tfod.setZoom(2.5, 16.0/9.0);
         }
 
         /** Wait for the game to begin */
@@ -175,28 +175,166 @@ public class TinDieselAutoCode extends LinearOpMode {
                             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100 );
                             telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
                             telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
+
                         }
-                        telemetry.update();
-                    }
-                    else if(tfod.getUpdatedRecognitions() == updatedRecognitions.get(0)){
+                        if(updatedRecognitions.get(0).getLabel() == "TC"){
+
+                        /*
 
                         lFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         lBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         rFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         rBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+                        lFD.setTargetPosition(-1800);
+                        lBD.setTargetPosition(1800);
+                        rFD.setTargetPosition(-1800);
+                        rBD.setTargetPosition(1800);
+                        sleep(400);
+                        lFD.setTargetPosition(1800);
+                        lBD.setTargetPosition(1800);
+                        rFD.setTargetPosition(1800);
+                        rBD.setTargetPosition(1800);
+                        sleep(1000);
+                        lFD.setTargetPosition(-1800);
+                        lBD.setTargetPosition(1800);
+                        rFD.setTargetPosition(-1800);
+                        rBD.setTargetPosition(1800);
+                        sleep(500);
+                        lFD.setTargetPosition(0);
+                        lBD.setTargetPosition(0);
+                        rFD.setTargetPosition(0);
+                        rBD.setTargetPosition(0);
+                        sleep(500);
 
+                        */
 
+                            lFD.setPower(-1);
+                            lBD.setPower(1);
+                            rFD.setPower(-1);
+                            rBD.setPower(1);
+                            sleep(400);
+                            lFD.setPower(0);
+                            lBD.setPower(0);
+                            rFD.setPower(0);
+                            rBD.setPower(0);
+                            sleep(500);
+                            lFD.setPower(1);
+                            lBD.setPower(1);
+                            rFD.setPower(1);
+                            rBD.setPower(1);
+                            sleep(1000);
+                            lFD.setPower(0);
+                            lBD.setPower(0);
+                            rFD.setPower(0);
+                            rBD.setPower(0);
+                            sleep(500);
+                            lFD.setPower(-1);
+                            lBD.setPower(1);
+                            rFD.setPower(-1);
+                            rBD.setPower(1);
+                            sleep(400);
+                            lFD.setPower(0);
+                            lBD.setPower(0);
+                            rFD.setPower(0);
+                            rBD.setPower(0);
+                        }
+                        else if(updatedRecognitions.get(0).getLabel() == "VD"){
+
+                        /*
+
+                        lFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        lBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        rFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        rBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                        lFD.setTargetPosition(-1800);
+                        lBD.setTargetPosition(1800);
+                        rFD.setTargetPosition(-1800);
+                        rBD.setTargetPosition(1800);
+                        sleep(400);
+                        lFD.setTargetPosition(0);
+                        lBD.setTargetPosition(0);
+                        rFD.setTargetPosition(0);
+                        rBD.setTargetPosition(0);
+                        sleep(500);
+
+                        */
+
+                            lFD.setPower(-1);
+                            lBD.setPower(1);
+                            rFD.setPower(-1);
+                            rBD.setPower(1);
+                            sleep(500);
+                            lFD.setPower(0);
+                            lBD.setPower(0);
+                            rFD.setPower(0);
+                            rBD.setPower(0);
+                        }
+                        else if(updatedRecognitions.get(0).getLabel() == "GN"){
+
+                        /*
+
+                        lFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        lBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        rFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        rBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                        lFD.setTargetPosition(-1800);
+                        lBD.setTargetPosition(1800);
+                        rFD.setTargetPosition(-1800);
+                        rBD.setTargetPosition(1800);
+                        sleep(400);
+                        lFD.setTargetPosition(-1800);
+                        lBD.setTargetPosition(-1800);
+                        rFD.setTargetPosition(-1800);
+                        rBD.setTargetPosition(-1800);
+                        sleep(1000);
+                        lFD.setTargetPosition(-1800);
+                        lBD.setTargetPosition(1800);
+                        rFD.setTargetPosition(-1800);
+                        rBD.setTargetPosition(1800);
+                        sleep(500);
+                        lFD.setTargetPosition(0);
+                        lBD.setTargetPosition(0);
+                        rFD.setTargetPosition(0);
+                        rBD.setTargetPosition(0);
+                        sleep(500);
+
+                        */
+
+                            lFD.setPower(-1);
+                            lBD.setPower(1);
+                            rFD.setPower(-1);
+                            rBD.setPower(1);
+                            sleep(400);
+                            lFD.setPower(0);
+                            lBD.setPower(0);
+                            rFD.setPower(0);
+                            rBD.setPower(0);
+                            sleep(500);
+                            lFD.setPower(-1);
+                            lBD.setPower(-1);
+                            rFD.setPower(-1);
+                            rBD.setPower(-1);
+                            sleep(1000);
+                            lFD.setPower(0);
+                            lBD.setPower(0);
+                            rFD.setPower(0);
+                            rBD.setPower(0);
+                            sleep(500);
+                            lFD.setPower(-1);
+                            lBD.setPower(1);
+                            rFD.setPower(-1);
+                            rBD.setPower(1);
+                            sleep(400);
+                            lFD.setPower(0);
+                            lBD.setPower(0);
+                            rFD.setPower(0);
+                            rBD.setPower(0);
+                        }
+                        telemetry.update();
                     }
-
-                    else if(tfod.getUpdatedRecognitions() == updatedRecognitions.get(1)){
-
-                    }
-
-                    else if(tfod.getUpdatedRecognitions() == updatedRecognitions.get(2)){
-
-                    }
-
                 }
             }
         }

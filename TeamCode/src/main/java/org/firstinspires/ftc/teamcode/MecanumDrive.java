@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  *
  * @author Brandon Gong
  */
-@TeleOp(name="Mecanum Drive Example", group="Iterative Opmode")
+@TeleOp(name="Tin Diesel Drive", group="Iterative Opmode")
 public class MecanumDrive extends OpMode {
 
     /*
@@ -78,15 +78,15 @@ public class MecanumDrive extends OpMode {
         if (gamepad1.left_trigger == 1) {
             for (int i = 0; i < 100; i++) {
                 front_right.setPower(1);
-                front_left.setPower(1);
+                front_left.setPower(-1);
                 back_right.setPower(1);
-                back_left.setPower(1);
+                back_left.setPower(-1);
 
             }
             for (int i = 0; i >= 100 && i < 200; i++) {
-                front_right.setPower(1);
+                front_right.setPower(-1);
                 front_left.setPower(-1);
-                back_right.setPower(1);
+                back_right.setPower(-1);
                 back_left.setPower(-1);
             }
             for (int i = 0; i >= 100 && i < 200; i++) {
