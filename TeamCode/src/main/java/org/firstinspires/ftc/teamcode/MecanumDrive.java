@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  *
  * @author Brandon Gong
  */
-@TeleOp(name="Tin Diesel Drive", group="Iterative Opmode")
+@TeleOp(name="Mecanum Drive Example", group="Iterative Opmode")
 public class MecanumDrive extends OpMode {
 
     /*
@@ -27,7 +27,7 @@ public class MecanumDrive extends OpMode {
     private DcMotor front_right = null;
     private DcMotor back_left = null;
     private DcMotor back_right = null;
-    //private DcMotor arm_slider = null;
+    private DcMotor arm_slider = null;
     private Servo grabber;
 
     public final static double SERVO_HOME = 0.0;
@@ -44,19 +44,28 @@ public class MecanumDrive extends OpMode {
         front_right = hardwareMap.get(DcMotor.class, "front_right");
         back_left = hardwareMap.get(DcMotor.class, "back_left");
         back_right = hardwareMap.get(DcMotor.class, "back_right");
-        //arm_slider = hardwareMap.get(DcMotor.class, "arm_slider");
+        arm_slider = hardwareMap.get(DcMotor.class, "arm_slider");
         grabber = hardwareMap.get(Servo.class, "grabber");
     }
 
     @Override
     public void loop() {
 
-        /*
         double y2 = gamepad2.right_stick_y;
 
         arm_slider.setPower(y2);
 
-        int a =0;
+        if (gamepad1.left_trigger == 1) {
+            arm_slider.setPower(1.0);
+        }
+        else if (gamepad1.right_trigger == 1) {
+            arm_slider.setPower(-1.0);
+        }
+        else {
+        }
+
+
+        /*int a =0;
         if(gamepad1.a){
             a=1;
 
@@ -68,10 +77,10 @@ public class MecanumDrive extends OpMode {
         else{
             grabber.setPosition(0);
         }*/
-        if (gamepad1.a) {
+        if (gamepad2.a) {
             grabber.setPosition(1.0);
 
-        } else {
+        } else{
             grabber.setPosition(0);
         }
 
@@ -79,15 +88,15 @@ public class MecanumDrive extends OpMode {
         if (gamepad1.left_trigger == 1) {
             for (int i = 0; i < 100; i++) {
                 front_right.setPower(1);
-                front_left.setPower(-1);
+                front_left.setPower(1);
                 back_right.setPower(1);
-                back_left.setPower(-1);
+                back_left.setPower(1);
 
             }
             for (int i = 0; i >= 100 && i < 200; i++) {
-                front_right.setPower(-1);
+                front_right.setPower(1);
                 front_left.setPower(-1);
-                back_right.setPower(-1);
+                back_right.setPower(1);
                 back_left.setPower(-1);
             }
             for (int i = 0; i >= 100 && i < 200; i++) {
@@ -98,6 +107,33 @@ public class MecanumDrive extends OpMode {
             }
         } else {
         }
+
+            /*
+            front_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            front_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            back_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            back_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            front_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            front_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            back_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            back_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            front_right.setTargetPosition(1800);
+            front_left.setTargetPosition(1800);
+            back_right.setTargetPosition(1800);
+            back_left.setTargetPosition(1800);
+
+            front_right.setTargetPosition(1800);
+            front_left.setTargetPosition(-1800);
+            back_right.setTargetPosition(1800);
+            back_left.setTargetPosition(-1800);
+
+            front_right.setTargetPosition(1800);
+            front_left.setTargetPosition(1800);
+            back_right.setTargetPosition(1800);
+            back_left.setTargetPosition(1800);*/
+
 
         if (gamepad1.right_trigger == 1) {
             for (int i = 0; i < 100; i++) {
