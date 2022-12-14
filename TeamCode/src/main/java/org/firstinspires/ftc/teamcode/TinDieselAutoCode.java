@@ -43,6 +43,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This 2022-2023 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -65,16 +66,8 @@ public class TinDieselAutoCode extends LinearOpMode {
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
 
-    private DcMotor lFD = null;
-    private DcMotor rFD = null;
-    private DcMotor lBD = null;
-    private DcMotor rBD = null;
-    private DcMotor aS = null;
-    private Servo aG;
-
-    public final static double SERVO_HOME = 0.0;
-    public final static double SERVO_MIN_RANGE = -127.0;
-    public final static double SERVO_MAX_RANGE = 127.0;
+    public final static double SERVO_MIN_RANGE = -1.0;
+    public final static double SERVO_MAX_RANGE = 1.0;
 
 
     private static final String TFOD_MODEL_ASSET = "dieselVision2.tflite";
@@ -123,27 +116,13 @@ public class TinDieselAutoCode extends LinearOpMode {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
 
-        lFD  = hardwareMap.get(DcMotor.class, "front_left");
-        lBD  = hardwareMap.get(DcMotor.class, "front_right");
-        rFD = hardwareMap.get(DcMotor.class, "back_left");
-        rBD = hardwareMap.get(DcMotor.class, "back_right");
-        aS = hardwareMap.get(DcMotor.class,"arm_slider");
+        DcMotor lFD = hardwareMap.get(DcMotor.class, "front_left");
+        DcMotor lBD = hardwareMap.get(DcMotor.class, "front_right");
+        DcMotor rFD = hardwareMap.get(DcMotor.class, "back_left");
+        DcMotor rBD = hardwareMap.get(DcMotor.class, "back_right");
+        DcMotor aS = hardwareMap.get(DcMotor.class, "arm_slider");
 
-        aG = hardwareMap.get(Servo.class,"arm_grabber");
-
-        /*
-
-        lFD.setDirection(DcMotorSimple.Direction.REVERSE);
-        lBD.setDirection(DcMotorSimple.Direction.REVERSE);
-        rFD.setDirection(DcMotorSimple.Direction.REVERSE);
-        rBD.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        lFD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lBD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rFD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rBD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-         */
+        Servo aG = hardwareMap.get(Servo.class, "arm_grabber");
 
         initVuforia();
         initTfod();
@@ -187,133 +166,397 @@ public class TinDieselAutoCode extends LinearOpMode {
                             double width  = Math.abs(recognition.getRight() - recognition.getLeft()) ;
                             double height = Math.abs(recognition.getTop()  - recognition.getBottom()) ;
 
-                            if(recognition.getLabel() == "VD"){
+                            if(Objects.equals(recognition.getLabel(), "VD")){
 
-                                /*
-
-                                lFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                lBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                rFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                rBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                                lFD.setTargetPosition(-2000);
-                                lBD.setTargetPosition(2000);
-                                rFD.setTargetPosition(-2000);
-                                rBD.setTargetPosition(2000);
-                                sleep(2000);
-                                lFD.setTargetPosition(0);
-                                lBD.setTargetPosition(0);
-                                rFD.setTargetPosition(0);
-                                rBD.setTargetPosition(0);
-                                sleep(60000);
-
-                                */
-
-                                lFD.setPower(-0.5);
-                                lBD.setPower(-0.5);
-                                rFD.setPower(0.75);
-                                rBD.setPower(0.5);
-                                sleep(1100);
-                                lFD.setPower(0);
-                                lBD.setPower(0);
-                                rFD.setPower(0);
-                                rBD.setPower(0);
-                                sleep(1000);
                                 lFD.setPower(-0.5);
                                 lBD.setPower(0.5);
                                 rFD.setPower(-0.5);
                                 rBD.setPower(0.5);
-                                sleep(1200); //need to check time
+                                sleep(1500);
+                                lBD.setPower(0);
+                                lFD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(60000);
+
+                                /*
+
+                                aG.setPosition(SERVO_MAX_RANGE);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(150);
+                                lFD.setPower(-0.5);
+                                lBD.setPower(0.5);
+                                rFD.setPower(-0.5);
+                                rBD.setPower(0.5);
+                                sleep(2000); //need to check time
                                 lFD.setPower(0);
                                 lBD.setPower(0);
                                 rFD.setPower(0);
                                 rBD.setPower(0);
                                 sleep(500);
-                                lFD.setPower(0.5);
-                                lBD.setPower(0.5);
-                                rFD.setPower(0.5);
-                                rBD.setPower(0.5);
-                                sleep(1500); //Need to check the time it takes to turn for grabber
-                                aS.setPower(0.2); //check power and direction for arm slider
+                                lFD.setPower(0.1);
+                                lBD.setPower(0.1);
+                                rFD.setPower(0.1);
+                                rBD.setPower(0.1);
+                                sleep(250);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(500);
+                                aS.setPower(0.8); //check power and direction for arm slider
                                 sleep(1000); //check time for arm slider to reach for grabber
-                                aG.setPosition(SERVO_MAX_RANGE); //this could be the wrong range have to check
-                                sleep(1000); //need to check the time for servo to open
-                                aS.setPower(-0.2);
-                                sleep(1000);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(500);
                                 lFD.setPower(0.5);
-                                lBD.setPower(0.5);
+                                lBD.setPower(-0.5);
                                 rFD.setPower(0.5);
-                                rBD.setPower(0.5);
-                                sleep(750); //Need to check the time it takes to turn for grabber
-                                aS.setPower(0.2); //check power and direction for arm slider
-                                sleep(1000); //check time for arm slider to reach for grabber
+                                rBD.setPower(-0.5);
+                                sleep(200);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(300);
                                 aG.setPosition(SERVO_MIN_RANGE); //this could be the wrong range have to check
-                                sleep(1000); //need to check the time for servo to open
-                                aS.setPower(-0.2);
-                                sleep(1000);
+                                sleep(500); //need to check the time for servo to open
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(300);
                                 lFD.setPower(-0.5);
                                 lBD.setPower(0.5);
                                 rFD.setPower(-0.5);
                                 rBD.setPower(0.5);
-                                sleep(2000);
+                                sleep(200);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(300);
+                                aS.setPower(-0.8);
+                                sleep(1000);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(200);
+                                lFD.setPower(-0.1);
+                                lBD.setPower(-0.1);
+                                rFD.setPower(-0.1);
+                                rBD.setPower(-0.1);
+                                sleep(500);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(300);
+                                lFD.setPower(0.5);
+                                lBD.setPower(-0.5);
+                                rFD.setPower(0.5);
+                                rBD.setPower(-0.5);
+                                sleep(1000);
                                 lFD.setPower(0);
                                 lBD.setPower(0);
                                 rFD.setPower(0);
                                 rBD.setPower(0);
                                 sleep(60000);
+
+                                 */
                             }
-                            else if(recognition.getLabel() == "GN"){
+                            else if(Objects.equals(recognition.getLabel(), "GN")){
+
+                            lFD.setPower(-0.5);
+                            lBD.setPower(-0.75);
+                            rFD.setPower(0.5);
+                            rBD.setPower(0.5);
+                            sleep(900);;
+                            lFD.setPower(0);
+                            lBD.setPower(0);
+                            rFD.setPower(0);
+                            rBD.setPower(0);
+                            aS.setPower(0);
+                            sleep(500);
+                            lFD.setPower(-0.5);
+                            lBD.setPower(0.5);
+                            rFD.setPower(-0.5);
+                            rBD.setPower(0.5);
+                            sleep(1500);
+                            lBD.setPower(0);
+                            lFD.setPower(0);
+                            rFD.setPower(0);
+                            rBD.setPower(0);
+                            sleep(60000);
 
                                 /*
 
-                                lFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                lBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                rFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                rBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                                lFD.setTargetPosition(-2000);
-                                lBD.setTargetPosition(2000);
-                                rFD.setTargetPosition(-2000);
-                                rBD.setTargetPosition(2000);
-                                sleep(2000);
-                                lFD.setTargetPosition(0);
-                                lBD.setTargetPosition(0);
-                                rFD.setTargetPosition(0);
-                                rBD.setTargetPosition(0);
-                                sleep(1000);
-                                lFD.setTargetPosition(-1000);
-                                lBD.setTargetPosition(-1000);
-                                rFD.setTargetPosition(1000);
-                                rBD.setTargetPosition(1000);
-                                sleep(1000);
-                                lFD.setTargetPosition(0);
-                                lBD.setTargetPosition(0);
-                                rFD.setTargetPosition(0);
-                                rBD.setTargetPosition(0);
-                                sleep(60000);
-
-                                */
-
-                                lFD.setPower(-0.5);
-                                lBD.setPower(-0.5);
-                                rFD.setPower(0.75);
-                                rBD.setPower(0.5);
-                                sleep(1100);
+                                aG.setPosition(SERVO_MAX_RANGE);
                                 lFD.setPower(0);
                                 lBD.setPower(0);
                                 rFD.setPower(0);
                                 rBD.setPower(0);
-                                sleep(1000);
+                                aS.setPower(0);
+                                sleep(150);
+                                aS.setPower(-0.25);
+                                sleep(100);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(200);
                                 lFD.setPower(-0.5);
                                 lBD.setPower(0.5);
                                 rFD.setPower(-0.5);
                                 rBD.setPower(0.5);
-                                sleep(2000);
+                                sleep(2300); //need to check time
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(500);
+                                lFD.setPower(0.1);
+                                lBD.setPower(0.1);
+                                rFD.setPower(0.1);
+                                rBD.setPower(0.1);
+                                sleep(150);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(500);
+                                aS.setPower(-0.25); //check power and direction for arm slider
+                                sleep(400); //check time for arm slider to reach for grabber
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(500);
+                                lFD.setPower(-0.5);
+                                lBD.setPower(0.5);
+                                rFD.setPower(-0.5);
+                                rBD.setPower(0.5);
+                                sleep(200);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(300);
+                                aG.setPosition(SERVO_MIN_RANGE); //this could be the wrong range have to check
+                                sleep(500); //need to check the time for servo to open
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(300);
+                                lFD.setPower(0.5);
+                                lBD.setPower(-0.5);
+                                rFD.setPower(0.5);
+                                rBD.setPower(-0.5);
+                                sleep(200);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(300);
+                                aS.setPower(0.25);
+                                sleep(400);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(200);
+                                lFD.setPower(-0.1);
+                                lBD.setPower(-0.1);
+                                rFD.setPower(-0.1);
+                                rBD.setPower(-0.1);
+                                sleep(150);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(300);
+                                lFD.setPower(0.5);
+                                lBD.setPower(-0.5);
+                                rFD.setPower(0.5);
+                                rBD.setPower(-0.5);
+                                sleep(1000);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(300);
+                                lFD.setPower(0.75);
+                                lBD.setPower(0.75);
+                                rFD.setPower(-0.5);
+                                rBD.setPower(-0.5);
+                                sleep(1000);
                                 lBD.setPower(0);
                                 lFD.setPower(0);
                                 rFD.setPower(0);
                                 rBD.setPower(0);
                                 sleep(60000);
+
+                                 */
+                            }
+                            else if(Objects.equals(recognition.getLabel(), "C")){
+
+                                lFD.setPower(0.5);
+                                lBD.setPower(0.5);
+                                rFD.setPower(-0.75);
+                                rBD.setPower(-0.75);
+                                sleep(750);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(500);
+                                lFD.setPower(-0.5);
+                                lBD.setPower(0.5);
+                                rFD.setPower(-0.5);
+                                rBD.setPower(0.5);
+                                sleep(1500);
+                                lBD.setPower(0);
+                                lFD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(60000);
+
+                                /*
+
+
+                                aG.setPosition(SERVO_MAX_RANGE);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(150);
+                                aS.setPower(-0.25);
+                                sleep(100);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(200);
+                                lFD.setPower(-0.5);
+                                lBD.setPower(0.5);
+                                rFD.setPower(-0.5);
+                                rBD.setPower(0.5);
+                                sleep(2300); //need to check time
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(500);
+                                lFD.setPower(0.1);
+                                lBD.setPower(0.1);
+                                rFD.setPower(0.1);
+                                rBD.setPower(0.1);
+                                sleep(150);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(500);
+                                aS.setPower(-0.25); //check power and direction for arm slider
+                                sleep(400); //check time for arm slider to reach for grabber
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(500);
+                                lFD.setPower(-0.5);
+                                lBD.setPower(0.5);
+                                rFD.setPower(-0.5);
+                                rBD.setPower(0.5);
+                                sleep(200);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(300);
+                                aG.setPosition(SERVO_MIN_RANGE); //this could be the wrong range have to check
+                                sleep(500); //need to check the time for servo to open
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(300);
+                                lFD.setPower(0.5);
+                                lBD.setPower(-0.5);
+                                rFD.setPower(0.5);
+                                rBD.setPower(-0.5);
+                                sleep(200);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(300);
+                                aS.setPower(0.25);
+                                sleep(400);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                aS.setPower(0);
+                                sleep(200);
+                                lFD.setPower(-0.1);
+                                lBD.setPower(-0.1);
+                                rFD.setPower(-0.1);
+                                rBD.setPower(-0.1);
+                                sleep(150);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(300);
+                                lFD.setPower(0.5);
+                                lBD.setPower(-0.5);
+                                rFD.setPower(0.5);
+                                rBD.setPower(-0.5);
+                                sleep(1000);
+                                lFD.setPower(0);
+                                lBD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(300);
+                                lFD.setPower(-0.5);
+                                lBD.setPower(-0.5);
+                                rFD.setPower(0.75);
+                                rBD.setPower(0.75);
+                                sleep(1000);
+                                lBD.setPower(0);
+                                lFD.setPower(0);
+                                rFD.setPower(0);
+                                rBD.setPower(0);
+                                sleep(60000);
+
+                                 */
                             }
 
                             telemetry.addData(""," ");
@@ -324,10 +567,31 @@ public class TinDieselAutoCode extends LinearOpMode {
                         }
                         telemetry.update();
                     }
+
                     else{
 
+                        lFD.setPower(-0.5);
+                        lBD.setPower(-0.75);
+                        rFD.setPower(0.5);
+                        rBD.setPower(0.5);
+                        sleep(900);;
+                        lFD.setPower(0);
+                        lBD.setPower(0);
+                        rFD.setPower(0);
+                        rBD.setPower(0);
+                        aS.setPower(0);
+                        sleep(500);
+                        lFD.setPower(-0.5);
+                        lBD.setPower(0.5);
+                        rFD.setPower(-0.5);
+                        rBD.setPower(0.5);
+                        sleep(1500);
+                        lBD.setPower(0);
+                        lFD.setPower(0);
+                        rFD.setPower(0);
+                        rBD.setPower(0);
+                        sleep(60000);
                         /*
-
                         lFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         lBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         rFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -354,7 +618,7 @@ public class TinDieselAutoCode extends LinearOpMode {
                         rBD.setTargetPosition(0);
                         sleep(60000);
 
-                        */
+
 
                         lFD.setPower(-0.5);
                         lBD.setPower(0.5);
@@ -376,6 +640,7 @@ public class TinDieselAutoCode extends LinearOpMode {
                         rFD.setPower(0);
                         rBD.setPower(0);
                         sleep(60000);
+                         */
                     }
 
                 }

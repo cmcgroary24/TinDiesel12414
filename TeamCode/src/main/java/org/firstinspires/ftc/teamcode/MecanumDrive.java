@@ -33,7 +33,8 @@ public class MecanumDrive extends OpMode {
     public final static double SERVO_HOME = 0.0;
     public final static double SERVO_MIN_RANGE = 0.0;
     public final static double SERVO_MAX_RANGE = 1.0;
-    final double SERVO_SPEED = 0.0;
+
+    public double multiplier = 1;
 
     @Override
     public void init() {
@@ -46,6 +47,8 @@ public class MecanumDrive extends OpMode {
         back_right = hardwareMap.get(DcMotor.class, "back_right");
         arm_slider = hardwareMap.get(DcMotor.class, "arm_slider");
         grabber = hardwareMap.get(Servo.class, "arm_grabber");
+
+        grabber.setPosition(SERVO_HOME);
     }
 
     @Override
@@ -54,13 +57,14 @@ public class MecanumDrive extends OpMode {
 
         double y2 = gamepad2.right_stick_y;
 
-        if(y2 > -0.5 || y2 < 0.5){
+        if(y2 > -0.25 || y2 < 0.25){
 
             arm_slider.setPower(-y2);
         }
 
+        /*
         int a =0;
-        if(gamepad1.a){
+        if(gamepad2.a){
             a=1;
 
         }
@@ -71,12 +75,26 @@ public class MecanumDrive extends OpMode {
         else{
             grabber.setPosition(0);
         }
-        if (gamepad1.a) {
-            grabber.setPosition(1.0);
+         */
+        if (gamepad2.a == true) {
+            grabber.setPosition(SERVO_MAX_RANGE);
 
-        } else {
-            grabber.setPosition(0);
         }
+        else if(gamepad2.b == true) {
+            grabber.setPosition(SERVO_MIN_RANGE);
+        }
+
+        if(gamepad1.right_bumper == true){
+
+            multiplier = 0.5;
+
+        }
+        else if(gamepad1.left_bumper == true){
+
+            multiplier = 1;
+
+        }
+
 
 /*
         if (gamepad1.left_trigger == 1) {
@@ -137,10 +155,12 @@ public class MecanumDrive extends OpMode {
         final double v3 = r * Math.sin(robotAngle) + rightX;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        front_left.setPower(-v1);
-        front_right.setPower(v2);
-        back_left.setPower(-v3);
-        back_right.setPower(v4);
+        if(v1 < 0.5 || v1 > -0.5 && v2 < 0.5 || v2 > -0.5 && v3 < 0.5 || v3 > -0.5 && v4 < 0.5 || v4 > -0.5) {
+            front_left.setPower(-v1*multiplier);
+            front_right.setPower(v2*multiplier);
+            back_left.setPower(-v3*multiplier);
+            back_right.setPower(v4*multiplier);
+        }
 
     }
 }
