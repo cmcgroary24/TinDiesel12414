@@ -56,6 +56,7 @@ public class DriveConstants {
     public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
     public static double kA = 0;
     public static double kStatic = 0;
+    //Volatage Compensation kF = 13.361417434832147
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -64,7 +65,7 @@ public class DriveConstants {
      * small and gradually increase them later after everything is working. All distance units are
      * inches.
      */
-    public static double MAX_VEL = 89.671;
+    public static double MAX_VEL = 72.319225;
     public static double MAX_ACCEL = 89.671;
     public static double MAX_ANG_VEL = Math.toRadians(180);
     public static double MAX_ANG_ACCEL = Math.toRadians(180);
