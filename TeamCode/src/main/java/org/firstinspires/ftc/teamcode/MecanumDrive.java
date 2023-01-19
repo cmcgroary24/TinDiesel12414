@@ -30,9 +30,9 @@ public class MecanumDrive extends OpMode {
     private DcMotor arm_slider = null;
     private Servo grabber;
 
-    public final static double SERVO_HOME = 0.0;
-    public final static double SERVO_MIN_RANGE = 0.0;
-    public final static double SERVO_MAX_RANGE = 1.0;
+    public final static double SERVO_HOME = 0.5;
+    public final static double SERVO_MIN_RANGE = 0.45;
+    public final static double SERVO_MAX_RANGE = 0.63;
 
     public double multiplier = 1;
 
@@ -55,27 +55,13 @@ public class MecanumDrive extends OpMode {
     public void loop() {
 
 
-        double y2 = gamepad2.right_stick_y;
+        double y2 = -gamepad2.right_stick_y;
 
         if(y2 > -0.25 || y2 < 0.25){
 
             arm_slider.setPower(-y2);
         }
 
-        /*
-        int a =0;
-        if(gamepad2.a){
-            a=1;
-
-        }
-        if(a==1){
-            grabber.setPosition(1.0);
-            a=0;
-        }
-        else{
-            grabber.setPosition(0);
-        }
-         */
         if (gamepad2.a == true) {
             grabber.setPosition(SERVO_MAX_RANGE);
 
@@ -95,61 +81,9 @@ public class MecanumDrive extends OpMode {
 
         }
 
-
-/*
-        if (gamepad1.left_trigger == 1) {
-            for (int i = 0; i < 100; i++) {
-                front_right.setPower(1);
-                front_left.setPower(-1);
-                back_right.setPower(1);
-                back_left.setPower(-1);
-
-            }
-            for (int i = 0; i >= 100 && i < 200; i++) {
-                front_right.setPower(-1);
-                front_left.setPower(-1);
-                back_right.setPower(-1);
-                back_left.setPower(-1);
-            }
-            for (int i = 0; i >= 100 && i < 200; i++) {
-                front_right.setPower(1);
-                front_left.setPower(1);
-                back_right.setPower(1);
-                back_left.setPower(1);
-            }
-        } else {
-        }
-
-        if (gamepad1.right_trigger == 1) {
-            for (int i = 0; i < 100; i++) {
-                front_right.setPower(-1);
-                front_left.setPower(1);
-                back_right.setPower(-1);
-                back_left.setPower(1);
-
-            }
-            for (int i = 0; i >= 100 && i < 200; i++) {
-                front_right.setPower(1);
-                front_left.setPower(1);
-                back_right.setPower(1);
-                back_left.setPower(1);
-            }
-            for (int i = 0; i >= 100 && i < 200; i++) {
-                front_right.setPower(-1);
-                front_left.setPower(1);
-                back_right.setPower(-1);
-                back_left.setPower(1);
-            }
-            for (int i = 0; i >= 200; i++) {
-            }
-        } else {
-
-        }
-*/
-
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
+        double rightX = -gamepad1.right_stick_x;
         final double v1 = r * Math.cos(robotAngle) + rightX;
         final double v2 = r * Math.sin(robotAngle) - rightX;
         final double v3 = r * Math.sin(robotAngle) + rightX;
