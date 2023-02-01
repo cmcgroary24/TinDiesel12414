@@ -175,14 +175,14 @@ public class TinDieselAutoCodeRedLeft extends LinearOpMode {
             .build();
         */
 
-    private static final String TFOD_MODEL_ASSET = "dieselVision2.tflite";
+    private static final String TFOD_MODEL_ASSET = "blocks_cone_model.tflite";
     // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
 
 
     private static final String[] LABELS = {
-            "C",
-            "GN",
-            "VD"
+            "Blocks1",
+            "Blocks2",
+            "Blocks3"
     };
 
     /*
@@ -412,7 +412,7 @@ public class TinDieselAutoCodeRedLeft extends LinearOpMode {
                             double width  = Math.abs(recognition.getRight() - recognition.getLeft()) ;
                             double height = Math.abs(recognition.getTop()  - recognition.getBottom()) ;
 
-                            if(Objects.equals(recognition.getLabel(), "VD")){
+                            if(Objects.equals(recognition.getLabel(), "Blocks2")){
 
                                 lFD.setPower(-0.5);
                                 lBD.setPower(0.5);
@@ -434,7 +434,7 @@ public class TinDieselAutoCodeRedLeft extends LinearOpMode {
 
 
                             }
-                            else if(Objects.equals(recognition.getLabel(), "GN")){
+                            else if(Objects.equals(recognition.getLabel(), "Blocks3")){
 
                                 /*
                                 aG.setPosition(SERVO_HOME);
@@ -468,7 +468,7 @@ public class TinDieselAutoCodeRedLeft extends LinearOpMode {
 
 
                             }
-                            else if(Objects.equals(recognition.getLabel(), "C")){
+                            else if(Objects.equals(recognition.getLabel(), "Blocks1")){
 
                                 /*
                                 aG.setPosition(SERVO_HOME);
