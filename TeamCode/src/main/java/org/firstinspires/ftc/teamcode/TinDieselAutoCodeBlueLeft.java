@@ -28,6 +28,7 @@ package org.firstinspires.ftc.teamcode;/* Copyright (c) 2019 FIRST. All rights r
  */
 
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -38,6 +39,8 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import java.util.List;
 import java.util.Objects;
@@ -66,104 +69,6 @@ public class TinDieselAutoCodeBlueLeft extends LinearOpMode {
     public final static double SERVO_MIN_RANGE = 0.5;
     public final static double SERVO_MAX_RANGE = 0.63;
 
-    /*
-    private final double d180 = Math.toRadians(180);
-    private final double d0 = Math.toRadians(0);
-    private final double d90 = Math.toRadians(90);
-    private final double d270 = Math.toRadians(270);
-
-     */
-
-    /*
-    TrajectorySequence trajsVD = drive.trajectorySequenceBuilder(startPose)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-            .splineTo(new Vector2d(0,63), d0)
-            .splineTo(new Vector2d(0,20), d0)
-            .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(0.25))
-            .waitSeconds(1)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-            .splineTo(new Vector2d(10, 20), d0)
-            .splineTo(new Vector2d(10,10), d90)
-            .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(-0.25))
-            .waitSeconds(2)
-            .splineTo(new Vector2d(63, 10), d90)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-            .splineTo(new Vector2d(10,10), d270)
-            .splineTo(new Vector2d(10,20), d180)
-            .splineTo(new Vector2d(0, 20), d180)
-            .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(0.26))
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-            .splineTo(new Vector2d(36,20), d0)
-            .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(-0.25))
-            .build();
-
-    TrajectorySequence trajsGN = drive.trajectorySequenceBuilder(startPose)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-            .splineTo(new Vector2d(0,63), d0)
-            .splineTo(new Vector2d(0,20), d0)
-            .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(0.25))
-            .waitSeconds(1)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-            .splineTo(new Vector2d(10, 20), d0)
-            .splineTo(new Vector2d(10,10), d90)
-            .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(-0.25))
-            .waitSeconds(2)
-            .splineTo(new Vector2d(63, 10), d90)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-            .splineTo(new Vector2d(10,10), d270)
-            .splineTo(new Vector2d(10,20), d180)
-            .splineTo(new Vector2d(0, 20), d180)
-            .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(0.26))
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-            .splineTo(new Vector2d(63,20), d0)
-            .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(-0.25))
-            .build();
-
-    TrajectorySequence trajsC = drive.trajectorySequenceBuilder(startPose)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-            .splineTo(new Vector2d(0,63), d0)
-            .splineTo(new Vector2d(0,20), d0)
-            .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(0.25))
-            .waitSeconds(1)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-            .splineTo(new Vector2d(10, 20), d0)
-            .splineTo(new Vector2d(10,10), d90)
-            .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(-0.25))
-            .waitSeconds(2)
-            .splineTo(new Vector2d(63, 10), d90)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-            .splineTo(new Vector2d(10,10), d270)
-            .splineTo(new Vector2d(10,20), d180)
-            .splineTo(new Vector2d(0, 20), d180)
-            .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(0.26))
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-            .splineTo(new Vector2d(10,20), d0)
-            .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(-0.25))
-            .build();
-
-    TrajectorySequence trajsE = drive.trajectorySequenceBuilder(startPose)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-            .splineTo(new Vector2d(0,63), d0)
-            .splineTo(new Vector2d(0,20), d0)
-            .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(0.25))
-            .waitSeconds(1)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-            .splineTo(new Vector2d(10, 20), d0)
-            .splineTo(new Vector2d(10,10), d90)
-            .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(-0.25))
-            .waitSeconds(2)
-            .splineTo(new Vector2d(63, 10), d90)
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-            .splineTo(new Vector2d(10,10), d270)
-            .splineTo(new Vector2d(10,20), d180)
-            .splineTo(new Vector2d(0, 20), d180)
-            .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(0.26))
-            .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-            .splineTo(new Vector2d(63,20), d180)
-            .splineTo(new Vector2d(63,63), d0)
-            .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(-0.25))
-            .build();
-        */
 
     private static final String TFOD_MODEL_ASSET = "blocks_cone_model.tflite";
     // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
@@ -219,146 +124,32 @@ public class TinDieselAutoCodeBlueLeft extends LinearOpMode {
 
         Servo aG = hardwareMap.get(Servo.class, "arm_grabber");
 
-        /*
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(36, 63, Math.toRadians(180));
+        Pose2d startPose = new Pose2d(0, 0, Math.toRadians(270));
 
-        drive.setPoseEstimate(startPose);
+        TrajectorySequence test = drive.trajectorySequenceBuilder(startPose)
+                .forward(10)
+                /*
+                .lineToSplineHeading(new Pose2d(10,0, Math.toRadians(270 )))
 
-        Trajectory VD = drive.trajectoryBuilder(startPose)
-                .forward(43)
+                .turn(Math.toRadians(45))
+                .forward(-5)
+                .lineToSplineHeading(new Pose2d(54, 18, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(36, 12, Math.toRadians(0)))
+                .turn(Math.toRadians(45))
+                .forward(-5)
+                .lineToSplineHeading(new Pose2d(54, 18, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(36, 12, Math.toRadians(0)))
+                .turn(Math.toRadians(45))
+                .forward(-5)
+                .forward(5)
+                .turn(Math.toRadians(45))
+
+                 */
                 .build();
 
-        Trajectory C = drive.trajectoryBuilder(startPose)
-                .forward(43)
-                .strafeRight(36)
-                        .build();
-        Trajectory GN = drive.trajectoryBuilder(startPose)
-                .forward(43)
-                        .strafeLeft(36)
-                                .build();
-        Trajectory E = drive.trajectoryBuilder(startPose)
-                .strafeLeft(27)
-                        .build();
-
-         */
-        /*
-
-        lFD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lBD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rFD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rBD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        lFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rFD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rBD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        lFD.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lBD.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rFD.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rBD.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        lFD.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lBD.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rFD.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rBD.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);`
-
-         */
-
-        /*
-
-        TrajectorySequence trajsVD = drive.trajectorySequenceBuilder(startPose)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-                .splineTo(new Vector2d(0, 63), d0)
-                .splineTo(new Vector2d(0,20), d0)
-                .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(0.25))
-                .waitSeconds(1)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-                .splineTo(new Vector2d(10, 20), d0)
-                .splineTo(new Vector2d(10,10), d90)
-                .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(-0.25))
-                .waitSeconds(2)
-                .splineTo(new Vector2d(63, 10), d90)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-                .splineTo(new Vector2d(10,10), d270)
-                .splineTo(new Vector2d(10,20), d180)
-                .splineTo(new Vector2d(0, 20), d180)
-                .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(0.26))
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-                .splineTo(new Vector2d(36,20), d0)
-                .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(-0.25))
-                .build();
-
-        TrajectorySequence trajsGN = drive.trajectorySequenceBuilder(startPose)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-                .splineTo(new Vector2d(0,63), d0)
-                .splineTo(new Vector2d(0,20), d0)
-                .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(0.25))
-                .waitSeconds(1)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-                .splineTo(new Vector2d(10, 20), d0)
-                .splineTo(new Vector2d(10,10), d90)
-                .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(-0.25))
-                .waitSeconds(2)
-                .splineTo(new Vector2d(63, 10), d90)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-                .splineTo(new Vector2d(10,10), d270)
-                .splineTo(new Vector2d(10,20), d180)
-                .splineTo(new Vector2d(0, 20), d180)
-                .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(0.26))
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-                .splineTo(new Vector2d(63,20), d0)
-                .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(-0.25))
-                .build();
-
-        TrajectorySequence trajsC = drive.trajectorySequenceBuilder(startPose)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-                .splineTo(new Vector2d(0,63), d0)
-                .splineTo(new Vector2d(0,20), d0)
-                .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(0.25))
-                .waitSeconds(1)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-                .splineTo(new Vector2d(10, 20), d0)
-                .splineTo(new Vector2d(10,10), d90)
-                .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(-0.25))
-                .waitSeconds(2)
-                .splineTo(new Vector2d(63, 10), d90)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-                .splineTo(new Vector2d(10,10), d270)
-                .splineTo(new Vector2d(10,20), d180)
-                .splineTo(new Vector2d(0, 20), d180)
-                .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(0.26))
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-                .splineTo(new Vector2d(10,20), d0)
-                .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(-0.25))
-                .build();
-
-        TrajectorySequence trajsE = drive.trajectorySequenceBuilder(startPose)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-                .splineTo(new Vector2d(0,63), d0)
-                .splineTo(new Vector2d(0,20), d0)
-                .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(0.25))
-                .waitSeconds(1)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-                .splineTo(new Vector2d(10, 20), d0)
-                .splineTo(new Vector2d(10,10), d90)
-                .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(-0.25))
-                .waitSeconds(2)
-                .splineTo(new Vector2d(63, 10), d90)
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MAX_RANGE))
-                .splineTo(new Vector2d(10,10), d270)
-                .splineTo(new Vector2d(10,20), d180)
-                .splineTo(new Vector2d(0, 20), d180)
-                .UNSTABLE_addTemporalMarkerOffset(-1, () -> aS.setPower(0.26))
-                .addTemporalMarker(() -> aG.setPosition(SERVO_MIN_RANGE))
-                .splineTo(new Vector2d(63,20), d180)
-                .splineTo(new Vector2d(63,63), d0)
-                .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> aS.setPower(-0.25))
-                .build();
-
-         */
 
         initVuforia();
         initTfod();
@@ -419,19 +210,19 @@ public class TinDieselAutoCodeBlueLeft extends LinearOpMode {
 
                                 drive.followTrajectory(VD);
 
-                                 */
+
 
 
 
                             }
                             else if(Objects.equals(recognition.getLabel(), "Blocks3")){
 
-                                /*
+
                                 aG.setPosition(SERVO_HOME);
 
                                 drive.followTrajectory(GN);
 
-                                 */
+
 
                                 lFD.setPower(0.5);
                                 lBD.setPower(0.5);
@@ -503,6 +294,11 @@ public class TinDieselAutoCodeBlueLeft extends LinearOpMode {
 
                     else{
 
+                        drive.setPoseEstimate(startPose);
+
+                        drive.followTrajectorySequence(test);
+
+                        /*
                         lFD.setPower(0.5);
                         lBD.setPower(0.5);
                         rFD.setPower(-0.5);
@@ -516,7 +312,7 @@ public class TinDieselAutoCodeBlueLeft extends LinearOpMode {
                         sleep(60000);
 
 
-                        /*
+
                         lFD.setPower(-0.5);
                         lBD.setPower(-0.75);
                         rFD.setPower(0.5);
